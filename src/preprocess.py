@@ -81,8 +81,8 @@ def save_processed(df, output_path="cleaned_telco.csv"):
 
 def main():
     # File paths
-    input_path = "Telco-Customer-Churn.csv"
-    output_path = "cleaned_telco.csv"
+    input_path = "/workspaces/Personalized-Customer-Retention-using-Causal-Uplift-Modeling-and-CatBoost-X-Learner/data/raw/Telco-Customer-Churn.csv"
+    output_path = "/workspaces/Personalized-Customer-Retention-using-Causal-Uplift-Modeling-and-CatBoost-X-Learner/processed/cleaned_telco.csv"
 
     # Load raw data
     df = load_data(input_path)
