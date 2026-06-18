@@ -39,7 +39,7 @@ customer_id = st.number_input("Enter Customer ID")
 
 if st.button("Analyze Customer"):
 
-    customer = df[df["customer_id"] == customer_id]
+    customer = df[df["customerID"] == customer_id]
 
     st.write(customer)
 
