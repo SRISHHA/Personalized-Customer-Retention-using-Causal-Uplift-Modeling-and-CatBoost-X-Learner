@@ -59,35 +59,17 @@ st.header("🧠 Why This Prediction?")
 if st.button("Explain Sample Customer"):
     
 
-    feature_cols = joblib.load("models/feature_columns.pkl")
-    explainer = joblib.load("models/shap_explainer.pkl")
-
-    sample = df.sample(1).copy()
-
-    target_col = "Outcome"
-    treatment_col = "Treatment"
-    meta_cols = ["Y0", "Y1"]
-
-    sample_X = sample[
-        [c for c in sample.columns
-        if c not in [target_col, treatment_col] + meta_cols]
-    ]
-
-    sample_encoded = pd.get_dummies(
-        sample_X,
-        drop_first=True
+    shap_values = joblib.load(
+        "models/shap_values.pkl"
     )
 
-    sample_encoded = sample_encoded.reindex(
-        columns=feature_cols,
-        fill_value=0
+    st.write("SHAP values loaded successfully")
+
+    st.write(
+        pd.DataFrame(
+            shap_values.values[:5]
+        )
     )
-
-    sample_encoded = sample_encoded.astype(float)
-
-    shap_values = explainer(sample_encoded)
-
-    st.write(shap_values.values)
 
 
 st.header("📈 Uplift Distribution")
