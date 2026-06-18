@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import joblib
 from src.utils import load_csv
+from src.roi import compute_roi, decision
 
 
 def load_artifacts(model_path, feature_path):
@@ -67,5 +68,9 @@ def run_inference(input_path, model_path, feature_path):
     df = predict_uplift(df, model, features)
 
     df = segment_customers(df)
+
+    df["roi"] = df["uplift_pred"].apply(compute_roi)
+
+    df["decision"] = df["uplift_pred"].apply(decision)
 
     return df

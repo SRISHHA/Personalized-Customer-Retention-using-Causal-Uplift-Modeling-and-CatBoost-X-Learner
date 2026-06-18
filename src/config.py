@@ -4,7 +4,7 @@ MODEL_PATH = "models/xlearner.pkl"
 
 FEATURE_PATH = "models/feature_columns.pkl"
 
-PRED_PATH = "predictions/customer_cate_predictions.csv"
+PRED_PATH = "outputs/predictions/customer_cate_predictions.csv"
 
 REPORT_PATH = "reports/final_metrics.json"
 
