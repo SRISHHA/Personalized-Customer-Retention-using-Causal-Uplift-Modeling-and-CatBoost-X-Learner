@@ -5,6 +5,7 @@ from src.pipelines.inference_pipeline import run_inference
 from src.roi import compute_roi, decision
 from src.explain import explain
 from src.config import *
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Causal Uplift Dashboard", layout="wide")
 
@@ -35,18 +36,22 @@ st.bar_chart(roi_by_segment)
 
 st.header("🔍 Customer Explorer")
 
-customer_id = st.number_input("Enter Customer ID")
+customer_id = st.text_input("Enter Customer ID")
 
 if st.button("Analyze Customer"):
 
     customer = df[df["customerID"] == customer_id]
 
-    st.write(customer)
+    if customer.empty:
+        st.error("Customer ID not found")
 
-    uplift = float(customer["uplift_pred"])
+    else:
+        st.write(customer)
 
-    st.write("### Recommendation:", decision(uplift))
-    st.write("### ROI:", compute_roi(uplift))
+        uplift = float(customer["uplift_pred"].iloc[0])
+
+        st.write("### Recommendation:", decision(uplift))
+        st.write("### ROI:", compute_roi(uplift))
 
 st.header("🧠 Why This Prediction?")
 
@@ -61,4 +66,9 @@ if st.button("Explain Sample Customer"):
 
 st.header("📈 Uplift Distribution")
 
-st.hist_chart(df["uplift_pred"])
+
+
+fig, ax = plt.subplots()
+ax.hist(df["uplift_pred"], bins=30)
+
+st.pyplot(fig)
