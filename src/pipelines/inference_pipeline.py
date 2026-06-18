@@ -13,9 +13,29 @@ def load_artifacts(model_path, feature_path):
 
 
 def predict_uplift(df, model, feature_cols):
-    X = df[feature_cols]
 
-    uplift = model.effect(X)
+    target_col = "Outcome"
+    treatment_col = "Treatment"
+    meta_cols = ["Y0", "Y1"]
+
+    X = df[
+        [c for c in df.columns
+         if c not in [target_col, treatment_col] + meta_cols]
+    ]
+
+    X_encoded = pd.get_dummies(
+        X,
+        drop_first=True
+    )
+
+    X_encoded = X_encoded.reindex(
+        columns=feature_cols,
+        fill_value=0
+    )
+
+    X_encoded = X_encoded.astype(float)
+
+    uplift = model.effect(X_encoded)
     uplift = np.array(uplift).reshape(-1)
 
     df = df.copy()
