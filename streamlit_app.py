@@ -6,6 +6,7 @@ from src.roi import compute_roi, decision
 from src.explain import explain
 from src.config import *
 import matplotlib.pyplot as plt
+import joblib
 
 st.set_page_config(page_title="Causal Uplift Dashboard", layout="wide")
 
@@ -57,11 +58,13 @@ st.header("🧠 Why This Prediction?")
 
 if st.button("Explain Sample Customer"):
 
+    explainer = joblib.load("models/shap_explainer.pkl")
+
     sample = df.sample(1)
 
-    shap_values = explain(model=None, X=sample)  # model loaded internally
+    shap_values = explainer(sample)
 
-    st.write("SHAP explanation generated (see plots in notebook version)")
+    st.write(shap_values.values)
 
 
 st.header("📈 Uplift Distribution")
