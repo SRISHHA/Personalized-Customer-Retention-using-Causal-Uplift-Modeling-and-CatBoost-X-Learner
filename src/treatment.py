@@ -7,12 +7,12 @@ def assign_treatment(
     seed: int = 42,
     base_rate: float = 0.3
 ) -> pd.DataFrame:
-    """
-    Assign treatment based on customer risk signals.
-    """
+    
 
     df = df.copy()
-    rng = np.random.default_rng(seed)
+
+    # keep seed for reproducibility (global numpy)
+    np.random.seed(seed)
 
     treatment_prob = (
         base_rate
@@ -23,9 +23,7 @@ def assign_treatment(
 
     treatment_prob = np.clip(treatment_prob, 0, 1)
 
-    df["Treatment"] = rng.binomial(
-        1,
-        treatment_prob
-    )
+    df["Treatment_Prob"] = treatment_prob
+    df["Treatment"] = np.random.binomial(1, treatment_prob)
 
     return df
