@@ -3,7 +3,6 @@ import pandas as pd
 
 from src.pipelines.inference_pipeline import run_inference
 from src.roi import compute_roi, decision
-from src.explain import explain
 from src.config import *
 import matplotlib.pyplot as plt
 import joblib
