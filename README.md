@@ -219,7 +219,7 @@ Shows how uplift scores are distributed across the customer population.
 
 # Inference Pipeline
 
-
+```
 User
    │
    ▼
@@ -237,7 +237,7 @@ Inference Pipeline
    ├── SHAP Feature Importance
    ▼
 Results returned to Streamlit Dashboard
-
+```
 
 ---
 
