@@ -47,14 +47,14 @@ def predict_uplift(df, model, feature_cols):
 
 def segment_customers(df):
     def segment(x):
-        if x > 0.2:
-            return "Persuadable"
-        elif x > 0:
-            return "Sure Things"
-        elif x > -0.2:
-            return "Sleeping Dogs"
-        else:
-            return "Lost Causes"
+    if x > 0.40:
+        return "Sure Things"
+    elif x > 0.20:
+        return "Persuadable"
+    elif x > 0:
+        return "Sleeping Dogs"
+    else:
+        return "Lost Causes"
 
     df["segment"] = df["uplift_pred"].apply(segment)
     return df
