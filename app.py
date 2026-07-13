@@ -10,6 +10,7 @@ import google.generativeai as genai
 from src.config import *
 from src.roi import compute_roi, decision
 from src.pipelines.inference_pipeline import run_inference
+import altair as alt
 
 
 load_dotenv()
@@ -374,23 +375,54 @@ elif page == "Customer Explorer":
     left, right = st.columns(2)
 
     with left:
-
         st.subheader("Customer Segments")
 
         segment_counts = (
             df["segment"]
             .value_counts()
             .sort_values(ascending=False)
+            .reset_index()
         )
 
-        st.bar_chart(segment_counts)
+        segment_counts.columns = ["Segment", "Count"]
+
+        chart1 = (
+            alt.Chart(segment_counts)
+            .mark_bar()
+            .encode(
+                x=alt.X("Segment:N", sort=None, title="Customer Segment"),
+                y=alt.Y("Count:Q", title="Number of Customers"),
+                tooltip=["Segment", "Count"]
+            )
+            .properties(height=350)
+        )
+
+        st.altair_chart(chart1, use_container_width=True)
 
     with right:
-        st.subheader("Average ROI by Segment")
+            st.subheader("Average ROI by Segment")
 
-        roi_segment = (df.groupby("segment")["roi"].mean().sort_values(ascending=False))
+            roi_segment = (
+                df.groupby("segment")["roi"]
+                .mean()
+                .sort_values(ascending=False)
+                .reset_index()
+            )
 
-        st.bar_chart(roi_segment)
+            roi_segment.columns = ["Segment", "Average ROI"]
+
+            chart2 = (
+                alt.Chart(roi_segment)
+                .mark_bar()
+                .encode(
+                    x=alt.X("Segment:N", sort=None, title="Customer Segment"),
+                    y=alt.Y("Average ROI:Q", title="Average ROI ($)"),
+                    tooltip=["Segment", "Average ROI"]
+                )
+                .properties(height=350)
+            )
+
+            st.altair_chart(chart2, use_container_width=True)
 
     st.header("🔍 Customer Explorer")
 
