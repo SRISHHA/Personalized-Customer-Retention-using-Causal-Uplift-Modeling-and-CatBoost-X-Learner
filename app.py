@@ -155,21 +155,26 @@ def dataframe_summary():
 # -------------------------------
 
 def ask_ai(prompt):
-
     if llm is None:
+        return "⚠️ Gemini API key not configured."
 
-        return (
-            "⚠️ Gemini API key not configured."
-        )
+    system_prompt = """
+You are an AI Business Sales Assistant.
+
+Your responsibilities:
+- Answer ONLY questions related to business, sales, marketing, customer acquisition, lead generation, CRM, negotiation, pricing, revenue growth, customer service, and entrepreneurship.
+- If the question is outside these topics, politely refuse and explain that you are designed only for business and sales assistance.
+- Never answer questions about politics, entertainment, medicine, law, programming (unless it directly relates to sales/business automation), personal advice, or general knowledge.
+- Keep responses practical, concise, and actionable.
+"""
 
     try:
-
-        response = llm.generate_content(prompt)
-
+        response = llm.generate_content(
+            f"{system_prompt}\n\nUser Question:\n{prompt}"
+        )
         return response.text
 
     except Exception as e:
-
         return f"AI Error: {e}"
 
 
@@ -246,15 +251,14 @@ if page == "Dashboard":
   
   segment_counts = df["segment"].value_counts()
 
-  st.header("🤖 AI Executive Summary")
+  
   
   if ai_enabled:
+    st.header("🤖 AI Executive Summary")
   
-      if st.button("Generate Executive Summary"):
-  
-          with st.spinner("Generating AI summary..."):
-  
-              prompt = f"""
+    if st.button("Generate Executive Summary"):
+        with st.spinner("Generating AI summary..."):
+            prompt = f"""
   You are a Chief Marketing Analytics Consultant.
   
   Summarize the following uplift campaign results.
@@ -283,9 +287,9 @@ if page == "Dashboard":
   Keep it under 250 words.
   """
   
-              response = ask_ai(prompt)
+        response = ask_ai(prompt)
   
-              st.markdown(
+        st.markdown(
                   f"""
   <div class="ai-box">
   
@@ -578,9 +582,9 @@ elif page == "Campaign Insights":
 elif page == "Ask AI":
 
     st.header("💬 Ask AI")
+    if ai_enabled:
+        user_prompt = st.text_area("Ask a marketing question")
 
-    user_prompt = st.text_area("Ask a marketing question")
-
-    if st.button("Ask"):
-        response = ask_ai(user_prompt)
-        st.markdown(response)
+        if st.button("Ask"):
+            response = ask_ai(user_prompt)
+            st.markdown(response)
