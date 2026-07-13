@@ -50,9 +50,9 @@ def segment_customers(df):
         if x > 0.2:
             return "Persuadable"
         elif x > 0:
-            return "Sleeping Dogs"
-        elif x > -0.2:
             return "Sure Things"
+        elif x > -0.2:
+            return "Sleeping Dogs"
         else:
             return "Lost Causes"
 

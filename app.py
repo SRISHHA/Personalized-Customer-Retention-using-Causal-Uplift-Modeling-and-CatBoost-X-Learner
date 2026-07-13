@@ -297,8 +297,15 @@ if page == "Dashboard":
   
   st.divider()
  
-  uplift = 0.0
-  roi = 0.0
+  uplift = df["uplift_pred"].mean()
+  roi = df["roi"].mean()
+
+  if uplift >= 0.20:
+    priority = "High"
+  elif uplift >= 0.10:
+    priority = "Medium"
+  else:
+    priority = "Low"
   
   col1, col2, col3 = st.columns(3)
   
@@ -326,7 +333,7 @@ if page == "Dashboard":
   
       st.info(
           f"""
-  ### Estimated ROI
+  ### Average  ROI
   
   ${roi:.2f}
   """
@@ -337,7 +344,7 @@ if page == "Dashboard":
       .mean()
       .max()
   )
-  col1, col2, col3, col4 = st.columns(4)
+  col1, col2, col3 = st.columns(3)
   
   col1.metric(
       "Customers",
@@ -350,18 +357,12 @@ if page == "Dashboard":
   )
   
   col3.metric(
-      "Average ROI",
-      f"${summary['average_roi']:.2f}"
-  )
-  
-  col4.metric(
       "Best Segment ROI",
       f"${best_roi:.2f}"
   )
   
-  st.progress(
-      min(max((uplift + 1) / 2, 0), 1)
-  )
+  uplift = df["uplift_pred"].mean()
+  st.progress(min(max(uplift, 0), 1))
   
   st.caption(
       "Higher values indicate stronger expected response to treatment."
@@ -500,11 +501,9 @@ elif page == "Campaign Insights":
   
   if ai_enabled:
   
-      if st.button("Generate Campaign Strategy"):
-  
-          with st.spinner("Analyzing campaign..."):
-  
-              segment_summary = (
+    if st.button("Generate Campaign Strategy"):
+        with st.spinner("Analyzing campaign..."):
+            segment_summary = (
                   df.groupby("segment")
                   .agg(
                       customers=("segment","count"),
@@ -514,7 +513,7 @@ elif page == "Campaign Insights":
                   .round(3)
               )
   
-              prompt = f"""
+            prompt = f"""
   You are a senior CRM strategist.
   
   Campaign Results
@@ -536,9 +535,9 @@ elif page == "Campaign Insights":
   Keep it concise.
   """
   
-              response = ask_ai(prompt)
+            response = ask_ai(prompt)
   
-              st.markdown(
+            st.markdown(
                   f"""
   <div class="report-box">
   
@@ -546,7 +545,7 @@ elif page == "Campaign Insights":
   
   </div>
   """,
-                  unsafe_allow_html=True
+            unsafe_allow_html=True
               )
 
 elif page == "Ask AI":
@@ -556,7 +555,5 @@ elif page == "Ask AI":
     user_prompt = st.text_area("Ask a marketing question")
 
     if st.button("Ask"):
-
         response = ask_ai(user_prompt)
-
         st.markdown(response)
