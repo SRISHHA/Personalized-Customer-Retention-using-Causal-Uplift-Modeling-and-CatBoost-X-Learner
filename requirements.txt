@@ -22,3 +22,7 @@ Pillow
 python-dotenv
 google-generativeai
 altair
+
+sentence-transformers
+faiss-cpu
+pypdf
