@@ -380,21 +380,15 @@ elif page == "Customer Explorer":
         segment_counts = (
             df["segment"]
             .value_counts()
+            .sort_values(ascending=False)
         )
 
         st.bar_chart(segment_counts)
 
     with right:
-
         st.subheader("Average ROI by Segment")
 
-        roi_segment = (
-            df.groupby("segment")["roi"]
-            .mean()
-            .sort_values(
-                ascending=False
-            )
-        )
+        roi_segment = (df.groupby("segment")["roi"].mean().sort_values(ascending=False))
 
         st.bar_chart(roi_segment)
 
