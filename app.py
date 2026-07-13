@@ -405,6 +405,7 @@ elif page == "Customer Explorer":
             roi_segment = (
                 df.groupby("segment")["roi"]
                 .mean()
+                .round(2)
                 .sort_values(ascending=False)
                 .reset_index()
             )
