@@ -1,0 +1,12 @@
+Retention Policy
+
+Customers with an expected ROI above 20% should be prioritized.
+
+Gold customers should not receive discounts above 15%.
+
+Preferred communication channels:
+1. Email
+2. SMS
+3. Phone
+
+Campaign performance should be reviewed every quarter.
