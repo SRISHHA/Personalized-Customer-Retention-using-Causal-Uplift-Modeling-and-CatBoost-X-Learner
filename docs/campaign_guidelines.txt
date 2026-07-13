@@ -1,0 +1,9 @@
+Campaign Guidelines
+
+Launch retention campaigns within 7 days of detecting customer inactivity.
+
+Do not contact the same customer more than twice in a 30-day period.
+
+Personalized offers are recommended for customers with high uplift scores.
+
+Track campaign ROI after every campaign to evaluate effectiveness.
