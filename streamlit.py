@@ -559,4 +559,4 @@ elif page == "Ask AI":
 
         response = ask_ai(user_prompt)
 
-        st.markdown(response) 
+        st.markdown(response)
