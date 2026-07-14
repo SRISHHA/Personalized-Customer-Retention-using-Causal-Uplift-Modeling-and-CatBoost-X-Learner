@@ -2,7 +2,7 @@ from pathlib import Path
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
-
+embeddings = embedding_model.encode(chunks)
 def load_documents(doc_folder="docs"):
     text = ""
 
