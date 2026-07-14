@@ -275,7 +275,7 @@ if page == "Dashboard":
           avg_roi=("roi", "mean"),
           avg_uplift=("uplift_pred", "mean")
       )
-      .round(3)
+      .round(2)
   )
 
   roi_segment = (
