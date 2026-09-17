@@ -173,7 +173,7 @@ def dataframe_summary():
 # AI HELPER
 # -------------------------------
 
-def ask_ai(prompt, use_rag=False):
+def ask_ai(prompt):
     if llm is None:
         return "⚠️ Gemini API key not configured."
 
